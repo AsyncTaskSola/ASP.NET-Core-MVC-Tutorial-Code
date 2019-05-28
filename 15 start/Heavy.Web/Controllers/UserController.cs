@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Heavy.Web.Controllers
 {
+
     [Authorize(Roles = "Administrators")] //要有用户权限才能进行一下的操作
     public class UserController : Controller
     {
