@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">角色ID</th>
+        <th scope="col">角色名</th>
+        <th scope="col">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var u in Model)
+    {
+        <tr>
+            <th scope="row">@u.Id</th>
+            <td>@u.Name</td>
+            <td>
+                @*<form asp-action="DeleteUser" asp-route-id="@u.Id" method="post">
+            <a asp-action="Edit" asp-route-id="@u.Id" class="btn btn-primary">编辑</a>
+            <button type="submit" class="btn-danger"
+                    onclick="return confirm('确定删除')">
+                删除
+            </button>
+        </form>*@
+                
+                <form asp-action="DeleteRole" asp-route-id="@u.Id" method="post">
+                    <a asp-action="EditRole" asp-route-id="@u.Id" class="btn btn-primary">编辑</a>
+                    <button type="submit" class="btn-danger" onclick="return confirm('确定删除')">删除</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a asp-action="AddRole" class="btn-group">添加角色</a>

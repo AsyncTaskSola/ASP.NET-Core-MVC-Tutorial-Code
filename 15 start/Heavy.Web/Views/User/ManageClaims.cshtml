@@ -1,0 +1,19 @@
+﻿@model Heavy.Web.ViewModels.ManageClaimsViewModel
+
+@{
+    ViewBag.Title = "编辑用户的CLims";
+}
+
+<h2>@ViewBag.Title"</h2>
+
+
+<form asp-action="ManageClaims" method="post">
+    <input type="hidden" name="userId" value="@Model.userId"/>
+
+    <select class="form-control" asp-for="CliamId" asp-items="@new SelectList(Model.AllClims)">
+        <option>---选择Cliam---</option>
+    </select>
+    
+    <button type="submit" name="addclaim" class="btn btn-primary">添加Claim</button>
+    <a asp-action="Edit" asp-route-id="@Model.userId" class="btn btn-primary">返回编辑页面</a>
+</form>

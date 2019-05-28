@@ -1,0 +1,24 @@
+﻿@model Heavy.Web.ViewModels.RoleAddViewModel
+
+
+@{
+    ViewBag.Title = "添加角色";
+}
+<h2>@ViewBag.Title</h2>
+
+<br/>
+
+<form method="post">
+    <div class="form-group row">
+        <label asp-for="RoleName" class="alert-info"></label>
+        <div class="col-md-10">
+            <input class="form-control" asp-for="RoleName"/>
+            <span class="invalid" asp-validation-for="RoleName"></span>
+        </div>
+    </div>
+    
+    <div class="invalid" asp-validation-summary="ModelOnly"></div>
+    <button type="submit" class="btn btn-primary">提交</button>
+    <a asp-action="Index" class="btn btn-secondary">返回列表</a>
+
+</form>

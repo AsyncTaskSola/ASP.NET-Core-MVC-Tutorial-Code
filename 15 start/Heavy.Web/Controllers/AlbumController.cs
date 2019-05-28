@@ -1,19 +1,29 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Heavy.Web.Models;
 using Heavy.Web.Services;
 using Heavy.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Heavy.Web.Controllers
 {
+    [Authorize(Policy= "编辑专辑2")]
     public class AlbumController : Controller
     {
         private readonly IAlbumService _albumService;
-
-        public AlbumController(IAlbumService albumService)
+        private readonly HtmlEncoder _htmlEncoder;
+        /// <summary>
+        /// 加入htmlEncoder这个是防止xss的攻击，19讲
+        /// </summary>
+        /// <param name="albumService"></param>
+        /// <param name="htmlEncoder"></param>
+        public AlbumController(IAlbumService albumService,HtmlEncoder htmlEncoder)
         {
             _albumService = albumService;
+            _htmlEncoder = htmlEncoder;
         }
 
         // GET: Album
@@ -56,7 +66,8 @@ namespace Heavy.Web.Controllers
             {
                 var newModel = await _albumService.AddAsync(new Album
                 {
-                    Artist = albumCreateViewModel.Artist,
+
+                    Artist =_htmlEncoder.Encode( albumCreateViewModel.Artist),
                     Title = albumCreateViewModel.Title,
                     CoverUrl = albumCreateViewModel.CoverUrl,
                     Price = albumCreateViewModel.Price,
