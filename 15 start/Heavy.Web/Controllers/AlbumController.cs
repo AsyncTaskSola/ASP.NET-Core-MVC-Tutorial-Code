@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Heavy.Web.Models;
@@ -36,6 +37,7 @@ namespace Heavy.Web.Controllers
         // GET: Album/Details/5
         public async Task<ActionResult> Details(int id)
         {
+
             var album = await _albumService.GetByIdAsync(id);
             if (album == null)
             {
@@ -151,7 +153,7 @@ namespace Heavy.Web.Controllers
             var model = await _albumService.GetByIdAsync(id);
             if (model == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));  
                 // return NotFound();
             }
 
@@ -165,5 +167,28 @@ namespace Heavy.Web.Controllers
                 return View();
             }
         }
+
+        #region Test demo by 20 teach
+
+        // /Album/List/123?id=456
+        public IActionResult List([FromQuery]int id,[FromHeader(Name = "Accept")] string accept)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult List(List<SomeModel> models)
+        {
+            return View();
+        }
+
+        #endregion
+
+    }
+
+    public class SomeModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

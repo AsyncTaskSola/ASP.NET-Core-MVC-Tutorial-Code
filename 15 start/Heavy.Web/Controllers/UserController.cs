@@ -38,7 +38,7 @@ namespace Heavy.Web.Controllers
         [HttpPost]
         // [ValidateAntiForgeryToken]//防止csrf攻击
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> AddUser(UserCreateViewModel userAddViewModel)
+        public async Task<IActionResult> AddUser(/*[Bind("AnotherUser")]*/UserCreateViewModel userAddViewModel)
         {
             if (!ModelState.IsValid)
             {

@@ -27,5 +27,18 @@ namespace Heavy.Web.ViewModels
         [Display(Name = "出生日期")]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
+
+        //public UserRoleViewModel Role { get; set; }
+
+        //public RoleAddViewModel Role { get; set; }[bind]测试用 20讲
+
+        //public AnotherUserViewModel AnotherUser { get; set; }//测试[bind的绑定作用]
+
     }
+
+    //public class AnotherUserViewModel
+    //{
+    //    public string UserName { get; set; }
+    //    public string Email { get; set; }
+    //}
 }

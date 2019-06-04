@@ -10,42 +10,76 @@
     <div class="form-group row">
         <label asp-for="UserName" class="col-sm-2"></label>
         <div class="col-10">
-            <input class="form-control" asp-for="UserName"/>
+            <input class="form-control" asp-for="UserName" />
             <span class="invalid" asp-validation-for="UserName"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="Email" class="col-sm-2"></label>
         <div class="col-10">
-            <input class="form-control" asp-for="Email"/>
+            <input class="form-control" asp-for="Email" />
             <span class="invalid" asp-validation-for="Email"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="PassWord" class="col-sm-2"></label>
         <div class="col-10">
-            <input class="form-control" asp-for="PassWord"/>
+            <input class="form-control" asp-for="PassWord" />
             <span class="invalid" asp-validation-for="PassWord"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="IdCardNo" class="col-sm-2"></label>
         <div class="col-10">
-            <input class="form-control" asp-for="IdCardNo"/>
+            <input class="form-control" asp-for="IdCardNo" />
             <span class="invalid" asp-validation-for="IdCardNo"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="BirthDate" class="col-sm-2"></label>
         <div class="col-10">
-            <input class="form-control" asp-for="BirthDate"/>
+            <input class="form-control" asp-for="BirthDate" />
             <span class="invalid" asp-validation-for="BirthDate"></span>
         </div>
     </div>
 
+    @*<div class="form-group row">
+            <label asp-for="Role.RoleId" class="col-sm-2"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="Role.RoleId"/>
+                <span class="invalid" asp-validation-for="Role.RoleId"></span>
+            </div>
+        </div>*@
+
+    @*<div class="form-group row">
+            <label asp-for="Role.RoleName" class="col-sm-2"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="Role.RoleName"/>
+                <span class="invalid" asp-validation-for="Role.RoleName "></span>
+            </div>
+        </div>*@
+
+
+    @*<div class="form-group row">
+        <label asp-for="AnotherUser.UserName" class="col-sm-2"></label>
+        <div class="col-10">
+            <input class="form-control" asp-for="AnotherUser.UserName"/>
+            <span class="invalid" asp-validation-for="AnotherUser.UserName "></span>
+        </div>
+    </div>
     
+    
+    <div class="form-group row">
+        <label asp-for="AnotherUser.Email" class="col-sm-2"></label>
+        <div class="col-10">
+            <input class="form-control" asp-for="AnotherUser.Email"/>
+            <span class="invalid" asp-validation-for="AnotherUser.Email "></span>
+        </div>
+    </div>*@
+
+
     <div class="invalid" asp-validation-summary="ModelOnly"></div>
-    
+
     <button type="submit" class="btn btn-primary">提交</button>
     <a asp-action="Index" class="btn btn-group-toggle">返回列表</a>
 

@@ -1,0 +1,29 @@
+2019-06-04 16:44:08.218 +08:00 [INF] Entity Framework Core 2.2.2-servicing-10034 initialized 'HeavyContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-06-04 16:44:22.259 +08:00 [INF] Executed DbCommand (1,362ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Albums] AS [a])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+2019-06-04 16:44:24.684 +08:00 [INF] User profile is available. Using 'C:\Users\22955\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-06-04 16:44:35.761 +08:00 [INF] Request starting HTTP/1.1 GET https://localhost:5003/  
+2019-06-04 16:44:35.900 +08:00 [INF] Executing endpoint 'Heavy.Web.Controllers.HomeController.Index (Heavy.Web)'
+2019-06-04 16:44:37.286 +08:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing action Heavy.Web.Controllers.HomeController.Index (Heavy.Web)
+2019-06-04 16:44:37.559 +08:00 [INF] Executing action method Heavy.Web.Controllers.HomeController.Index (Heavy.Web) - Validation state: "Valid"
+2019-06-04 16:44:37.564 +08:00 [INF] Visting Home Index..
+2019-06-04 16:44:37.574 +08:00 [INF] Executed action method Heavy.Web.Controllers.HomeController.Index (Heavy.Web), returned result Microsoft.AspNetCore.Mvc.ViewResult in 5.6059ms.
+2019-06-04 16:44:37.654 +08:00 [INF] Executing ViewResult, running view Index.
+2019-06-04 16:44:38.243 +08:00 [INF] Executed ViewResult - view Index executed in 648.45350000000008ms.
+2019-06-04 16:44:38.246 +08:00 [INF] Executed action Heavy.Web.Controllers.HomeController.Index (Heavy.Web) in 957.8151ms
+2019-06-04 16:44:38.249 +08:00 [INF] Executed endpoint 'Heavy.Web.Controllers.HomeController.Index (Heavy.Web)'
+2019-06-04 16:44:38.266 +08:00 [INF] Request finished in 2509.0318ms 200 text/html; charset=utf-8
+2019-06-04 16:44:38.396 +08:00 [INF] Request starting HTTP/1.1 GET https://localhost:5003/js/mine/my1.js  
+2019-06-04 16:44:38.412 +08:00 [INF] The file /js/mine/my1.js was not modified
+2019-06-04 16:44:38.419 +08:00 [INF] Request finished in 22.7644ms 304 application/javascript
+2019-06-04 16:44:38.443 +08:00 [INF] Request starting HTTP/1.1 GET https://localhost:5003/js/mine/my2.js  
+2019-06-04 16:44:38.445 +08:00 [INF] The file /js/mine/my2.js was not modified
+2019-06-04 16:44:38.448 +08:00 [INF] Request finished in 4.3766ms 304 application/javascript
+2019-06-04 16:44:38.462 +08:00 [INF] Request starting HTTP/1.1 GET https://localhost:5003/js/mine/my3.js  
+2019-06-04 16:44:38.464 +08:00 [INF] The file /js/mine/my3.js was not modified
+2019-06-04 16:44:38.466 +08:00 [INF] Request finished in 3.6487ms 304 application/javascript
