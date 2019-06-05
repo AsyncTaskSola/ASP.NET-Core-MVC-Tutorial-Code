@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Heavy.Web.Auth;
+﻿using Heavy.Web.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,11 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Heavy.Web.Data;
+using Heavy.Web.Filters;
 using Heavy.Web.Models;
 using Heavy.Web.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -95,8 +92,45 @@ namespace Heavy.Web
                 options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
                 options.SuppressXFrameOptionsHeader = false;
             });
-            services.AddMvc(option => 
-                { option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
+            services.AddMvc(option =>
+            {
+                option.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+                #region 全局设置filter
+                //option.Filters.Add(new LogResourceFilter());
+                //option.Filters.Add(typeof(LogAsyncResourceFilter));
+                option.Filters.Add<LogResourceFilter>();
+                #endregion
+
+                #region response缓存
+                option.CacheProfiles.Add("Default", new CacheProfile
+                {
+                    Duration = 60
+                });
+                option.CacheProfiles.Add("Never", new CacheProfile
+                {
+                    Location = ResponseCacheLocation.None,
+                    NoStore = true
+                });
+                #endregion
+
+            });
+
+            #region 使用缓存
+
+            //services.AddMemoryCache();
+
+            //redis缓存
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "redis-for-albums";
+            });
+            #endregion
+
+            #region 压缩
+            services.AddResponseCompression();
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -114,7 +148,9 @@ namespace Heavy.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            #region 压缩
+            app.UseResponseCompression();
+            #endregion
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

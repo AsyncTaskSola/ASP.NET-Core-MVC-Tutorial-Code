@@ -25,6 +25,7 @@ namespace Heavy.Web.Controllers
         /// 获取用户管理
         /// </summary>
         /// <returns></returns>
+        
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();

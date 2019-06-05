@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Heavy.Web.Data;
 using Heavy.Web.Models;
 using Heavy.Web.Services;
 using Heavy.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace Heavy.Web.Controllers
 {
@@ -16,22 +22,82 @@ namespace Heavy.Web.Controllers
     {
         private readonly IAlbumService _albumService;
         private readonly HtmlEncoder _htmlEncoder;
+        private readonly IMemoryCache _memoryCache;
+        private readonly IDistributedCache _distributedCache;
+
         /// <summary>
-        /// 加入htmlEncoder这个是防止xss的攻击，19讲
+        /// 加入htmlEncoder这个是防止xss的攻击，19讲,加入IMemoryCache缓存
         /// </summary>
         /// <param name="albumService"></param>
         /// <param name="htmlEncoder"></param>
-        public AlbumController(IAlbumService albumService,HtmlEncoder htmlEncoder)
+        public AlbumController(IAlbumService albumService,
+            HtmlEncoder htmlEncoder,
+            IMemoryCache memoryCache,
+            IDistributedCache distributedCache)
         {
             _albumService = albumService;
             _htmlEncoder = htmlEncoder;
+            _memoryCache = memoryCache;
+            _distributedCache = distributedCache;
         }
 
         // GET: Album
         public async Task<ActionResult> Index()
         {
-            var albums = await _albumService.GetAllAsync();
-            return View(albums);
+            #region 内存缓存
+            //if(!_memoryCache.TryGetValue(CacheEntryConstants.AlbumofToday,
+            //    out List<Album> cachedAlbums))
+            //{
+            //    cachedAlbums = await _albumService.GetAllAsync();
+            //    var CacheEntryOptions = new MemoryCacheEntryOptions()
+            //        //.SetAbsoluteExpiration(TimeSpan.FromSeconds(600));
+            //        .SetSlidingExpiration(TimeSpan.FromSeconds(30));
+            //    //回调
+            //    CacheEntryOptions.RegisterPostEvictionCallback(FillCache, this);
+            //    _memoryCache.Set(CacheEntryConstants.AlbumofToday, cachedAlbums, CacheEntryOptions);
+            //}
+            //return View(cachedAlbums);
+            #endregion
+
+            #region redis缓存
+
+            List<Album> cachedAlbums = null;
+
+            var cacheAlbumsString = _distributedCache.Get(CacheEntryConstants.AlbumofToday);
+            if (cacheAlbumsString == null)
+            {
+                cachedAlbums = await _albumService.GetAllAsync();
+                var serializedString = JsonConvert.SerializeObject(cachedAlbums);
+                byte[] encodedAlbums = Encoding.UTF8.GetBytes(serializedString);
+                var CacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _distributedCache.Set(CacheEntryConstants.AlbumofToday, encodedAlbums);
+            }
+            else
+            {
+                byte[] encodingAlbums = _distributedCache.Get(CacheEntryConstants.AlbumofToday);
+                string serializedString = Encoding.UTF8.GetString(encodingAlbums);
+                cachedAlbums = JsonConvert.DeserializeObject<List<Album>>(serializedString);
+            }
+            return View(cachedAlbums);
+
+
+            #endregion
+
+
+            #region 原来代码
+
+            //var albums = await _albumService.GetAllAsync();
+
+            //return View(albums);
+
+            #endregion
+
+        }
+
+        private void FillCache(object key, object value, EvictionReason reason, object state)
+        {
+        
         }
 
         // GET: Album/Details/5
